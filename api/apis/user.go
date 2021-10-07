@@ -10,7 +10,7 @@ import (
 // Users 返回所有的用户
 func Users(c *gin.Context) {
 	var user model.User
-	user.UserName = c.Request.FormValue("username")
+	user.Username = c.Request.FormValue("username")
 	user.Password = c.Request.FormValue("password")
 	result, err := user.Users()
 	if err != nil {
@@ -29,7 +29,8 @@ func Users(c *gin.Context) {
 // Store 添加数据
 func Store(c *gin.Context) {
 	var user model.User
-	user.UserName = c.Request.FormValue("username")
+	user.ID, _ = strconv.ParseInt(c.Request.FormValue("id"),10,64)
+	user.Username = c.Request.FormValue("username")
 	user.Password = c.Request.FormValue("password")
 	id, err := user.Insert()
 	if err != nil {
@@ -78,7 +79,7 @@ func Destroy(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK,gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"code":    1,
 		"message": "删除用户成功",
 	})
