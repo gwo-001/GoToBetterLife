@@ -68,6 +68,7 @@ func Update(c *gin.Context) {
 
 }
 
+// Destroy 根据id来删除用户
 func Destroy(c *gin.Context) {
 	var user model.User
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
