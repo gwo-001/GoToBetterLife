@@ -1,18 +1,18 @@
 package models
 
 import (
-	orm "GoToBetterLife/api/database"
+	orm "GoToBetterLife/dal/database"
 	"fmt"
 	"time"
 )
 
 type Dairy struct {
-	id             int64  `json:"id" gorm:"column:id;notnull;type:int primary key auto_increment;comment:'主键'"`
-	Datetime       int    `json:"datetime" gorm:"column:date_time;type:int;comment:'日期'"`
+	ID             int64  `json:"id" gorm:"column:id;notnull;type:int primary key auto_increment;comment:'主键'"`
+	Datetime       int64    `json:"datetime" gorm:"column:date_time;type:int;comment:'日期'"`
 	Article        string `json:"article" gorm:"column:article;type:varchar(255);comment:'日记本体'"`
 	BeOnDutyTime   string `json:"be_on_duty_time" gorm:"column:be_on_duty_time;type:varchar(8);comment:'开始工作的时间'"`
 	OffDutyTime    string `json:"off_duty_time" gorm:"column:off_duty_time;type:varchar(8);comment'下班时间'"`
-	IsWorkOutToday string `json:"is_workout_today" gorm:"column:is_workout_today:type:varchar(8):comment:'是否运动了'"'`
+	IsWorkoutToday string `json:"is_workout_today" gorm:"column:is_workout_today;type:varchar(8);comment:'是否运动了'"`
 }
 
 var Dairies []Dairy
@@ -61,13 +61,13 @@ func (dairy *Dairy) GetNewPage(page int) (dairies []Dairy, err error) {
 }
 
 //InsertNewDairies 用来记录今天的上班下班时间、是否锻炼身体、是否学习等
-func (dairy *Dairy) InsertNewDairies(dairy1 Dairy) (dateTime int, err error) {
-	result := orm.Db.Create(dairy1)
+func (dairy *Dairy) InsertNewDairies() (dateTime int, err error) {
+	result := orm.Db.Create(dairy)
 	err = result.Error
 	if err != nil {
 		return 0, err
 	}
-	dateTime = dairy.Datetime
+	dateTime = int(dairy.Datetime)
 	return
 }
 

@@ -1,7 +1,7 @@
-package apis
+package api
 
 import (
-	model "GoToBetterLife/api/models"
+	"GoToBetterLife/dal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -9,7 +9,7 @@ import (
 
 // Users 返回所有的用户
 func Users(c *gin.Context) {
-	var user model.User
+	var user models.User
 	user.Username = c.Request.FormValue("username")
 	user.Password = c.Request.FormValue("password")
 	result, err := user.Users()
@@ -22,13 +22,14 @@ func Users(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code":    1,
-		"message": result,
+		"message": "success",
+		"data":result,
 	})
 }
 
 // Store 添加数据
 func Store(c *gin.Context) {
-	var user model.User
+	var user models.User
 	user.ID, _ = strconv.ParseInt(c.Request.FormValue("id"),10,64)
 	user.Username = c.Request.FormValue("username")
 	user.Password = c.Request.FormValue("password")
@@ -49,7 +50,7 @@ func Store(c *gin.Context) {
 
 // Update 根据用户id来修改用户密码
 func Update(c *gin.Context) {
-	var user model.User
+	var user models.User
 	id, err := strconv.ParseInt(c.Param("id"), 10, 60)
 	user.Password = c.Request.FormValue("password")
 
@@ -70,7 +71,7 @@ func Update(c *gin.Context) {
 
 // Destroy 根据id来删除用户
 func Destroy(c *gin.Context) {
-	var user model.User
+	var user models.User
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	result, err := user.Destroy(id)
 	if err != nil || result.ID == 0 {

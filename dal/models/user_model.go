@@ -1,7 +1,7 @@
 package models
 
 import (
-	orm "GoToBetterLife/api/database"
+	orm "GoToBetterLife/dal/database"
 	"fmt"
 )
 

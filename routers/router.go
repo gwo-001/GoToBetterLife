@@ -1,8 +1,8 @@
 package routers
 
 import (
-	. "GoToBetterLife/api/apis"
-	_ "GoToBetterLife/api/models"
+	. "GoToBetterLife/api"
+	_ "GoToBetterLife/dal/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +21,7 @@ func InitRouter() *gin.Engine {
 	dairy:=router.Group("/dairy")
 	{
 		dairy.GET("/")
+		dairy.PUT("/",AddNewDairy)
 	}
 
 

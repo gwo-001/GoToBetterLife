@@ -1,9 +1,9 @@
 package main
 
 import (
-	"GoToBetterLife/api/database"
-	"GoToBetterLife/api/models"
-	"GoToBetterLife/api/routers"
+	"GoToBetterLife/dal/database"
+	"GoToBetterLife/dal/models"
+	"GoToBetterLife/routers"
 )
 
 func main() {
