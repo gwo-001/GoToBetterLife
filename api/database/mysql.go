@@ -18,4 +18,6 @@ func Init() {
 		fmt.Printf("database error %v", Db.Error)
 	}
 	fmt.Printf("database connected")
+
+
 }

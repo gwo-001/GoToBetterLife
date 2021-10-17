@@ -1,4 +1,4 @@
-package router
+package routers
 
 import (
 	. "GoToBetterLife/api/apis"
@@ -22,6 +22,7 @@ func InitRouter() *gin.Engine {
 	{
 		dairy.GET("/")
 	}
+
 
 	return router
 }

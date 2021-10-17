@@ -1,13 +1,15 @@
 package main
 
 import (
-	orm "GoToBetterLife/api/database"
-	. "GoToBetterLife/api/router"
+	"GoToBetterLife/api/database"
+	"GoToBetterLife/api/models"
+	"GoToBetterLife/api/routers"
 )
 
 func main() {
-	orm.Init()
-	defer orm.Db.Close()
-	router := InitRouter()
+	database.Init()
+	defer database.Db.Close()
+	models.InitAllTables()
+	router := routers.InitRouter()
 	router.Run(":8080")
 }
