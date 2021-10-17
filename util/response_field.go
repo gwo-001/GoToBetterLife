@@ -1,4 +1,4 @@
-package enum
+package util
 
 const (
 	StatusCode = "status_code"

@@ -2,7 +2,7 @@ package api
 
 import (
 	"GoToBetterLife/dal/models"
-	"GoToBetterLife/enum"
+	"GoToBetterLife/util"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
@@ -18,16 +18,16 @@ func LatestDairies(c *gin.Context) {
 	result, err := dairy.GetLatestTenDairies()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			enum.StatusCode: enum.One,
-			enum.Message:    enum.Fail,
-			enum.Data:       err,
+			util.StatusCode: util.One,
+			util.Message:    util.Fail,
+			util.Data:       err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		enum.StatusCode: enum.One,
-		enum.Fail:       enum.Fail,
-		enum.Data:       result,
+		util.StatusCode: util.One,
+		util.Fail:       util.Fail,
+		util.Data:       result,
 	})
 }
 
@@ -47,15 +47,15 @@ func AddNewDairy(c *gin.Context) {
 	dateTime, err := dairy.InsertNewDairies()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			enum.StatusCode: enum.One,
-			enum.Message:    enum.Fail,
-			enum.Data:       err,
+			util.StatusCode: util.One,
+			util.Message:    util.Fail,
+			util.Data:       err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		enum.StatusCode: enum.One,
-		enum.Message:    enum.Success,
-		enum.Data:       dateTime,
+		util.StatusCode: util.One,
+		util.Message:    util.Success,
+		util.Data:       dateTime,
 	})
 }
