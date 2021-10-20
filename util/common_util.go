@@ -2,25 +2,42 @@ package util
 
 import (
 	"reflect"
+	"time"
 )
 
+// HasLength 用来判断输入i是否为nil或者为0值
 func HasLength(i interface{}) (result bool) {
-
-	iType := reflect.TypeOf(i).String()
 	result = false
+	if i == nil {
+		return result
 
+	}
+	iType := reflect.TypeOf(i).String()
 	switch iType {
 	case "int":
-
+		iInt := i.(int)
+		if iInt == 0 {
+			result = true
+		}
+		return result
 	case "string":
 		iString := i.(string)
-		if i == nil || iString == "" {
+		if iString == "" {
 			return
 		}
 		result = true
-		return result
+		return
 	default:
 		return
 	}
 	return
+}
+
+// GetNowDate 获取到当前时间20211020
+func GetNowDate() (dateTime int) {
+	year := time.Now().Year()
+	month := int(time.Now().Month())
+	day := time.Now().Day()
+	dateTime = year*10000 + month*100 + day
+	return dateTime
 }

@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
-func TestHasLength(t *testing.T) {
+func TestUnit(t *testing.T) {
 	util.HasLength(1)
+
+	util.GetNowDate()
 }

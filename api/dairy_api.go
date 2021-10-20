@@ -31,7 +31,7 @@ func LatestDairies(c *gin.Context) {
 	})
 }
 
-// 添加一篇新的日记
+// AddNewDairy 添加一篇新的日记
 func AddNewDairy(c *gin.Context) {
 	var dairy models.Dairy
 	var err error
@@ -44,6 +44,9 @@ func AddNewDairy(c *gin.Context) {
 
 	err = c.BindJSON(&dairy)
 	ioutil.ReadAll(c.Request.Body)
+	if !util.HasLength(dairy.Datetime) {
+		dairy.Datetime = int64(util.GetNowDate())
+	}
 	dateTime, err := dairy.InsertNewDairies()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{

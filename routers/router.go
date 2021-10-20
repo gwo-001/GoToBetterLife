@@ -9,6 +9,7 @@ import (
 func InitRouter() *gin.Engine {
 
 	router := gin.Default()
+
 	// 这里分出一个user路由组，专门操作用户
 	user := router.Group("/user")
 	{
@@ -18,12 +19,19 @@ func InitRouter() *gin.Engine {
 		user.DELETE("/", Destroy)
 	}
 
-	dairy:=router.Group("/dairy")
+	// 日记相关接口
+	dairy := router.Group("/dairy")
 	{
 		dairy.GET("/")
-		dairy.PUT("/",AddNewDairy)
+		dairy.PUT("/", AddNewDairy)
 	}
 
+	// 注册与登陆接口
+	login := router.Group("/login")
+	{
+		login.POST("/signUp")
+		login.POST("/login")
+	}
 
 	return router
 }
