@@ -27,10 +27,10 @@ func InitRouter() *gin.Engine {
 	}
 
 	// 注册与登陆接口
-	login := router.Group("/login")
+	login := router.Group("/auth")
 	{
 		login.POST("/signUp")
-		login.POST("/login")
+		login.POST("/login",Login)
 	}
 
 	return router
