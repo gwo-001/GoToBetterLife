@@ -42,7 +42,7 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		util.StatusCode: util.One,
 		util.Message:    util.Success,
-		"token":signedToken,
+		"token":         signedToken,
 	})
 }
 
@@ -51,10 +51,19 @@ func Verify(c *gin.Context) {
 	tokenStr := c.Request.FormValue("token")
 	claim, err := VerifyToken(tokenStr)
 	if err != nil {
-		c.String(http.StatusNotFound, err.Error())
+		c.JSON(http.StatusOK, gin.H{
+			util.StatusCode: util.Zero,
+			util.Message:    util.Fail,
+			"data":          "invalid token",
+		})
 		return
 	}
-	c.String(http.StatusOK, "verify", claim.Username, claim.Password)
+	data := "valid token, " + claim.Username
+	c.JSON(http.StatusOK, gin.H{
+		util.StatusCode: util.One,
+		util.Message:    util.Success,
+		util.Data:       data,
+	})
 }
 
 // GetToken 获取token
