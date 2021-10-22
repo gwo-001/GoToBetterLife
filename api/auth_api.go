@@ -48,13 +48,13 @@ func Login(c *gin.Context) {
 
 // Verify 校验token
 func Verify(c *gin.Context) {
-	tokenStr := c.Param("token")
+	tokenStr := c.Request.FormValue("token")
 	claim, err := VerifyToken(tokenStr)
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
 		return
 	}
-	c.String(http.StatusOK, "verify", claim.Username)
+	c.String(http.StatusOK, "verify", claim.Username, claim.Password)
 }
 
 // GetToken 获取token
@@ -71,7 +71,7 @@ func GetToken(claims *JWTClaims) (tokenStr string, err error) {
 // VerifyToken 校验token
 func VerifyToken(tokenStr string) (*JWTClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(Secret), nil
+		return Secret, nil
 	})
 	if err != nil {
 		return nil, errors.New(ServerBusy)

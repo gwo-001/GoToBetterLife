@@ -31,6 +31,7 @@ func InitRouter() *gin.Engine {
 	{
 		login.POST("/signUp")
 		login.POST("/login",Login)
+		login.GET("/verify",Verify)
 	}
 
 	return router
