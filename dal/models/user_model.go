@@ -8,8 +8,9 @@ import (
 type User struct {
 	ID       int64  `json:"id" gorm:"column:id;notnull;type:int primary key auto_increment;comment:'主键'"`
 	Username string `json:"username" gorm:"column:username; type:varchar(30); comment:'用户名'"`
-	Password string `json:"password " gorm:"column:password; type:varchar(50); comment:'用户密码'"`
+	Password string `json:"password" gorm:"column:password; type:varchar(50); comment:'用户密码'"`
 }
+
 
 var Users []User
 
@@ -28,6 +29,16 @@ func (user *User) CreatUserTable() (result int, err error) {
 	}
 	result = 1
 	return result, err
+}
+
+// CountUserName 校验用户是否存在了
+func (user *User) CountUserName() (exist bool,err error)  {
+	num:=0
+	orm.Db.Model(&User{}).Where("username=?",user.Username).Count(&num)
+	if num!=0 {
+		return true, err
+	}
+	return false,err
 }
 
 // Insert 添加用户

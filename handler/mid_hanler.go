@@ -14,11 +14,16 @@ func Authorize() gin.HandlerFunc {
 		cookies := c.Request.Cookies()
 		for _, v := range cookies {
 			if v.Name == "token" {
+				// 先校验token有效性
 				jwtClaim, err := api.VerifyToken(v.Value)
 				if err != nil {
 					c.Abort()
 					return
 				}
+				// 这里校验用户密码的正确性
+				//username:=jwtClaim.Username
+				//password:=jwtClaim.Password
+
 				fmt.Println(jwtClaim)
 				c.Next()
 			}

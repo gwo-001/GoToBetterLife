@@ -2,6 +2,7 @@ package api
 
 import (
 	"GoToBetterLife/dal/models"
+	"GoToBetterLife/util"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -23,28 +24,50 @@ func Users(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code":    1,
 		"message": "success",
-		"data":result,
+		"data":    result,
 	})
 }
 
-// Store 添加数据
-func Store(c *gin.Context) {
-	var user models.User
-	user.ID, _ = strconv.ParseInt(c.Request.FormValue("id"),10,64)
-	user.Username = c.Request.FormValue("username")
-	user.Password = c.Request.FormValue("password")
-	id, err := user.Insert()
+// UserSignUp 添加数据
+func UserSignUp(c *gin.Context) {
+	userExist := false
+	var err error
+	user := models.User{}
+	err = c.BindJSON(&user)
+
+	//ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"code":    -1,
-			"message": "添加用户失败",
+			util.StatusCode: util.Zero,
+			util.Message:    util.Fail,
+			util.Data:       err,
+		})
+	}
+
+	// 这里检测用户是否已经注册了
+	userExist, err = user.CountUserName()
+	if userExist {
+		c.JSON(http.StatusOK, gin.H{
+			util.StatusCode: util.Zero,
+			util.Message:    util.Fail,
+			util.Data:       "User already exist",
+		})
+		return
+	}
+
+	// 这里插入新用户
+	if _,err=user.Insert();err == nil {
+		c.JSON(http.StatusOK, gin.H{
+			util.StatusCode: util.One,
+			util.Message:    util.Success,
+			util.Data:       "user signUp success",
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"code":    1,
-		"message": "添加用户成功",
-		"id":      id,
+		util.StatusCode: util.Zero,
+		util.Message:    util.Fail,
+		util.Data:       "user signUp failed",
 	})
 }
 

@@ -35,13 +35,6 @@ func LatestDairies(c *gin.Context) {
 func AddNewDairy(c *gin.Context) {
 	var dairy models.Dairy
 	var err error
-
-	//dairy.Datetime, err = strconv.ParseInt(c.Request.FormValue("dateTime"), 10, 64)
-	//dairy.Article = c.Request.FormValue("article")
-	//dairy.BeOnDutyTime = c.Request.FormValue("beOnDutyTime")
-	//dairy.OffDutyTime = c.Request.FormValue("offDutyTime")
-	//dairy.IsWorkoutToday = c.Request.FormValue("isWorkoutToday")
-
 	err = c.BindJSON(&dairy)
 	ioutil.ReadAll(c.Request.Body)
 	if !util.HasLength(dairy.Datetime) {
