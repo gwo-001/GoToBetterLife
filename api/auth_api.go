@@ -94,3 +94,11 @@ func VerifyToken(tokenStr string) (*JWTClaims, error) {
 	}
 	return claims, nil
 }
+
+// HTTPInterceptor 拦截器中间件
+//func HTTPInterceptor(h http.HandlerFunc)  http.HandlerFunc{
+//	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+//		request.ParseForm()
+//		h(writer,request)
+//	})
+//}
