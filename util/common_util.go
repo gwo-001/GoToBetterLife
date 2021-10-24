@@ -1,6 +1,8 @@
 package util
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"reflect"
 	"time"
 )
@@ -40,4 +42,11 @@ func GetNowDate() (dateTime int) {
 	day := time.Now().Day()
 	dateTime = year*10000 + month*100 + day
 	return dateTime
+}
+
+// MD5 给用md5算法加密
+func MD5(metaPassword string) (encryptPassword string) {
+	md5Ctx := md5.New()
+	md5Ctx.Write([]byte(metaPassword))
+	return hex.EncodeToString(md5Ctx.Sum(nil))
 }

@@ -11,7 +11,6 @@ type User struct {
 	Password string `json:"password" gorm:"column:password; type:varchar(50); comment:'用户密码'"`
 }
 
-
 var Users []User
 
 // CreatUserTable 建立user表
@@ -32,13 +31,24 @@ func (user *User) CreatUserTable() (result int, err error) {
 }
 
 // CountUserName 校验用户是否存在了
-func (user *User) CountUserName() (exist bool,err error)  {
-	num:=0
-	orm.Db.Model(&User{}).Where("username=?",user.Username).Count(&num)
-	if num!=0 {
+func (user *User) CountUserName() (exist bool, err error) {
+	num := 0
+	orm.Db.Model(&User{}).Where("username=?", user.Username).Count(&num)
+	if num != 0 {
 		return true, err
 	}
-	return false,err
+	return false, err
+}
+
+// SelectUser 用来校验用户名和密码是否正确
+func (user *User) SelectUser() (result bool) {
+	var num int
+	result = false
+	orm.Db.Model(&User{}).Where("username=? AND password=?", user.Username, user.Password).Count(&num)
+	if num != 0 {
+		result = true
+	}
+	return result
 }
 
 // Insert 添加用户

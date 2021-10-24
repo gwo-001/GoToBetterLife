@@ -1,6 +1,7 @@
 package api
 
 import (
+	"GoToBetterLife/dal/models"
 	"GoToBetterLife/util"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
@@ -68,6 +69,20 @@ func Verify(c *gin.Context) {
 
 // GetToken 获取token
 func GetToken(claims *JWTClaims) (tokenStr string, err error) {
+
+	// 这里先对用户密码加密
+	username:=claims.Username
+	password:=claims.Password
+	encryptPassword:=util.MD5(password)
+
+	// 这里校验用户密码和用户名是否匹配
+	tmpUser:=models.User{}
+	tmpUser.Username=username
+	tmpUser.Password=encryptPassword
+	if !tmpUser.SelectUser(){
+		return
+	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenStr, err = token.SignedString(Secret)
 
@@ -95,10 +110,3 @@ func VerifyToken(tokenStr string) (*JWTClaims, error) {
 	return claims, nil
 }
 
-// HTTPInterceptor 拦截器中间件
-//func HTTPInterceptor(h http.HandlerFunc)  http.HandlerFunc{
-//	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-//		request.ParseForm()
-//		h(writer,request)
-//	})
-//}

@@ -45,8 +45,7 @@ func UserSignUp(c *gin.Context) {
 	}
 
 	// 这里检测用户是否已经注册了
-	userExist, err = user.CountUserName()
-	if userExist {
+	if userExist, err = user.CountUserName(); userExist {
 		c.JSON(http.StatusOK, gin.H{
 			util.StatusCode: util.Zero,
 			util.Message:    util.Fail,
@@ -55,8 +54,12 @@ func UserSignUp(c *gin.Context) {
 		return
 	}
 
+	// 这里将用户密码用md5加密
+	encryptPassword := util.MD5(user.Password)
+	user.Password = encryptPassword
+
 	// 这里插入新用户
-	if _,err=user.Insert();err == nil {
+	if _, err = user.Insert(); err == nil {
 		c.JSON(http.StatusOK, gin.H{
 			util.StatusCode: util.One,
 			util.Message:    util.Success,
@@ -64,6 +67,8 @@ func UserSignUp(c *gin.Context) {
 		})
 		return
 	}
+
+	// 兜底逻辑，返回注册失败
 	c.JSON(http.StatusOK, gin.H{
 		util.StatusCode: util.Zero,
 		util.Message:    util.Fail,
