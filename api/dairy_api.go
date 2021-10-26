@@ -26,7 +26,7 @@ func LatestDairies(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		util.StatusCode: util.One,
-		util.Fail:       util.Fail,
+		util.Message:       util.Fail,
 		util.Data:       result,
 	})
 }

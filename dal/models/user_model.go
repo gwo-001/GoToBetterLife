@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+var Username string
+
 type User struct {
 	ID       int64  `json:"id" gorm:"column:id;notnull;type:int primary key auto_increment;comment:'主键'"`
 	Username string `json:"username" gorm:"column:username; type:varchar(30); comment:'用户名'"`

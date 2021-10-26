@@ -6,8 +6,6 @@ import (
 	"fmt"
 )
 
-var Username string
-
 type Dairy struct {
 	ID             int64  `json:"id" gorm:"column:id;notnull;type:int primary key auto_increment;comment:'主键'"`
 	Username       string `json:"username" gorm:"column:username;notnull;type:varchar(255);comment:'用户名'"`
@@ -39,7 +37,8 @@ func (dairy *Dairy) CreateDairy() (result int, err error) {
 
 // GetLatestTenDairies 获取到最近十天的日记，用于页面刚刚加载的时候返回给到前端
 func (dairy *Dairy) GetLatestTenDairies() (dairies []Dairy, err error) {
-	if err = orm.Db.Find(&dairies).Limit(10).Error; err != nil {
+
+	if err = orm.Db.Where("username = ?",Username).Find(&dairies).Limit(10).Error; err != nil {
 		return
 	}
 	return

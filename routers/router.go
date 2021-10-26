@@ -36,7 +36,7 @@ func InitRouter() *gin.Engine {
 	// 日记相关接口
 	dairy := router.Group("/dairy")
 	{
-		dairy.GET("/")
+		dairy.GET("/latest",api.LatestDairies)
 		dairy.PUT("/", api.AddNewDairy)
 	}
 
