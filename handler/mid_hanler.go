@@ -2,11 +2,12 @@ package handler
 
 import (
 	"GoToBetterLife/api"
+	"GoToBetterLife/dal/models"
 	"github.com/gin-gonic/gin"
 )
 
-var token string
 
+// Authorize 鉴权中间件
 func Authorize() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cookies := c.Request.Cookies()
@@ -18,9 +19,11 @@ func Authorize() gin.HandlerFunc {
 		for _, v := range cookies {
 			if v.Name == "token" {
 				// 先校验token有效性
-				if  _, err := api.VerifyToken(v.Value);err!=nil{
+				claim, err := api.VerifyToken(v.Value)
+				if err != nil {
 					c.Abort()
 				}
+				models.Username = claim.Username
 				break
 			}
 			continue
