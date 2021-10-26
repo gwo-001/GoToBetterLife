@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	database.Init()
+	database.InitMysql()
+	database.InitRedis()
 	defer database.Db.Close()
 	models.InitAllTables()
 	router := routers.InitRouter()

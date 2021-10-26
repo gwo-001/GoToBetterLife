@@ -8,7 +8,7 @@ import (
 
 var Db *gorm.DB
 
-func Init() {
+func InitMysql() {
 	var err error
 	Db, err = gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/gin_gorm?charset=utf8&&parseTime=True&loc=Local&timeout=10ms")
 	if err != nil {

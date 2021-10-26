@@ -9,16 +9,20 @@ import (
 
 func InitRouter() *gin.Engine {
 
-	router := gin.Default()
+	router := gin.New()
+
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 
 	// 注册与登陆接口
 	login := router.Group("/auth")
 	{
-		login.POST("/signUp",)
+		login.POST("/signUp")
 		login.POST("/login", api.Login)
 		login.GET("/verify", api.Verify)
 	}
 
+	// 除了登陆和注册相关接口，其余的接口均需要鉴权
 	router.Use(handler.Authorize())
 	// 这里分出一个user路由组，专门操作用户
 	user := router.Group("/user")

@@ -6,4 +6,4 @@ COPY . $GOPATH/src/GoToBetterLife
 
 EXPOSE 8080
 
-CMD ["./GoToBetterLife"]
+CMD ["./go_to_better_life"]
