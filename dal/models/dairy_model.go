@@ -37,8 +37,7 @@ func (dairy *Dairy) CreateDairy() (result int, err error) {
 
 // GetLatestTenDairies 获取到最近十天的日记，用于页面刚刚加载的时候返回给到前端
 func (dairy *Dairy) GetLatestTenDairies() (dairies []Dairy, err error) {
-
-	if err = orm.Db.Where("username = ?",Username).Find(&dairies).Limit(10).Error; err != nil {
+	if err = orm.Db.Where("username = ?",Username).Limit(10).Find(&dairies).Error; err != nil {
 		return
 	}
 	return
